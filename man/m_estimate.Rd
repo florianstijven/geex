@@ -18,7 +18,8 @@ m_estimate(
   corrections,
   deriv_control,
   root_control,
-  approx_control
+  approx_control,
+  big_data = FALSE
 )
 }
 \arguments{
@@ -57,6 +58,10 @@ See details for more information.}
 \item{root_control}{a \code{\linkS4class{root_control}} object}
 
 \item{approx_control}{a \code{\linkS4class{approx_control}} object}
+
+\item{big_data}{(boolean) If the analysis concerns a big data set,
+subject-level information on sandwich components are not saved to reduce
+memory usage.}
 }
 \value{
 a \code{\linkS4class{geex}} object

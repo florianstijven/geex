@@ -31,6 +31,9 @@
 #' @param deriv_control a \code{\linkS4class{deriv_control}} object
 #' @param root_control a \code{\linkS4class{root_control}} object
 #' @param approx_control a \code{\linkS4class{approx_control}} object
+#' @param big_data (boolean) If the analysis concerns a big data set,
+#'  subject-level information on sandwich components are not saved to reduce
+#'  memory usage.
 #'
 #' @details The basic idea of \pkg{geex} is for the analyst to provide at least
 #' two items:
@@ -169,7 +172,8 @@ m_estimate <- function(estFUN,
                        corrections,
                        deriv_control,
                        root_control,
-                       approx_control){
+                       approx_control,
+                       big_data = FALSE){
   call    <- match.call()
   control <- methods::new('geex_control')
 
@@ -218,7 +222,12 @@ m_estimate <- function(estFUN,
     if(!missing(corrections)){
       out@corrections <- make_corrections(mats, corrections)
     }
-
+    # If data are "big", remove subject-level sandwich component information.
+    if (big_data) {
+      mats@.A_i = NULL
+      mats@.B_i = NULL
+      mats@.ee_i = NULL
+    }
     out@sandwich_components <- mats
     ## Compute covariance estimate(s) ##
     out@vcov <- compute_sigma(A = grab_bread(mats), B = grab_meat(mats),
