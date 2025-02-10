@@ -224,9 +224,9 @@ m_estimate <- function(estFUN,
     }
     # If data are "big", remove subject-level sandwich component information.
     if (big_data) {
-      mats@.A_i = NULL
-      mats@.B_i = NULL
-      mats@.ee_i = NULL
+      mats@.A_i = list(NA)
+      mats@.B_i = list(NA)
+      mats@.ee_i = list(NA)
     }
     out@sandwich_components <- mats
     ## Compute covariance estimate(s) ##
